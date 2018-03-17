@@ -93,5 +93,11 @@ export default {
             }
             fn(returnValue);
         });
-    }
+    },
+
+    getViewHeight(fn) {
+        Picker.getViewHeight((height) => {
+            fn(height);
+        });
+    },
 };

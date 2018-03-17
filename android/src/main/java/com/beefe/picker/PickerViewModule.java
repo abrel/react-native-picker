@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.util.DisplayMetrics;
 
 import com.beefe.picker.util.MIUIUtils;
 import com.beefe.picker.view.OnSelectedListener;
@@ -124,6 +125,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     private ArrayList<ReturnData> returnData;
 
     private int curStatus;
+    private int height;
 
     private PickerViewLinkage pickerViewLinkage;
     private PickerViewAlone pickerViewAlone;
@@ -352,6 +354,8 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             }
 
             int height = barViewHeight + pickerViewHeight;
+            this.height = height;
+
             if (dialog == null) {
                 dialog = new Dialog(activity, R.style.Dialog_Full_Screen);
                 dialog.setContentView(view);
@@ -419,6 +423,13 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
         } else {
             callback.invoke(null, dialog.isShowing());
         }
+    }
+
+    @ReactMethod
+    public void getViewHeight(Callback callback) {
+        Activity activity = getCurrentActivity();
+        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+        callback.invoke(Math.round(this.height / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)));
     }
 
     private int[] getColor(ReadableArray array) {
